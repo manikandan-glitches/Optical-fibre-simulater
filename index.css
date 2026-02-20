@@ -1,0 +1,68 @@
+body{
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image:url("WhatsApp\ Image\ 2026-02-20\ at\ 2.17.11\ PM.jpeg");
+}
+.card{
+    height: 73vh;
+    width: 1200px;
+    background-color: black;
+    display: flex;
+    box-shadow: 10px 20px 40px rgba(0, 0,0,0.9);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.imgbox{
+    height: 73vh;
+    width: 600px;
+    display: inline-block;
+}
+.textbox{
+    height: 73vh;
+    width: 600px;
+    display: inline;
+    background-color: white;
+}
+.imgbox img{
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+.phy{
+    font-family: sans-serif;
+    margin-left: 60px;
+    margin-top: 40px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+.title{
+    font-family: Montserrat;
+    margin-top: 50px;
+    margin-left: 55px;
+    font-size: 48px;
+    font-weight: 700;
+}
+.phy img{
+    height: 20px;
+    margin-right: 10px;
+}
+.button{
+    margin-top: 30px;
+    margin-left: 55px;
+}
+.button button{
+    height: 50px;
+    width: 300px;
+    font-size: 30px;
+    font-weight: 700;
+    
+    font-family: montserrat;
+    background-color: rgba(214, 45, 45, 0.6);
+    border: none;
+    box-shadow: 10px 20px 30px rgba(0, 0,0,0.4);
+    border-radius: 3px;
+}
