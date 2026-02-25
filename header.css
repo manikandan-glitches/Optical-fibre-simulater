@@ -1,0 +1,40 @@
+.header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background-color:white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom-left-radius: 5px ;
+  border-bottom-right-radius: 5px;
+
+}
+.right{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.right p,button{
+  margin: 45px;
+  font-family: Montserrat;
+  font-weight: 500;
+  font-size: 16px;
+}
+.right button{
+  height: 50px;
+  width: 80px;
+  background-color:rgba(214, 45, 45, 0.6);
+  border-radius: 4px;
+  font-weight: 700;
+}
+.left{
+  font-size: 35px;
+  font-family: Montserrat;
+  margin-left: 50px;
+  font-weight: 500;
+}
