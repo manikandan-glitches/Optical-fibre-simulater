@@ -1,0 +1,40 @@
+.login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    height: 600px;
+    width: 600px;
+    top: 40;
+    bottom: 50;
+    left: 100;
+    right: 100;
+    background-color: white;
+    border-radius: 8px;
+}
+.login input{
+    margin: 20px;
+    height: 50px;
+    width: 400px;
+    font-family:montserrat ;
+    font-weight: 500;
+    font-size: 18px;
+    padding-left: 14px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 5px;
+}
+.login button{
+    height: 40px;
+    width: 400px;
+    background-color: rgba(214, 45, 45, 0.6);
+    font-family: montserrat ;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.login p{
+    font-family: montserrat;
+    font-size: 40px;
+    font-weight: 700;
+}
