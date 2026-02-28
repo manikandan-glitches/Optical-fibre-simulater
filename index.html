@@ -18,7 +18,7 @@
                 <p>Home</p>
                 <p>Simulation</p>
                 <p>About</p>
-                <button>Login</button>
+                <button onclick="togglelogin()">Login</button>
             </div>
         </div>
 
@@ -27,7 +27,7 @@
             <input type="text" placeholder="Name">
             <input type="text" placeholder="Email">
             <input type="text" placeholder="Password">
-            <button>Enter</button>
+            <button onclick="togglelogin()">Enter</button>
         </div>
 
 
@@ -53,5 +53,13 @@
                 <img src="WhatsApp Image 2026-02-20 at 11.27.52 AM.jpeg">
             </div>
         </div>
+
+        <script>
+            function togglelogin()
+            {
+                document.querySelector('.login').classList.toggle('active');
+                document.querySelector('.body').classList.toggle('active');
+            }
+        </script>
     </body>
 </html>
