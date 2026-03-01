@@ -39,3 +39,10 @@
   margin-left: 50px;
   font-weight: 500;
 }
+.a1,.a2,.a3{
+    text-decoration: none;
+    color: inherit;
+}
+.a1.active,.a2.active,.a3.active{
+  border-bottom: 2px solid black;
+}

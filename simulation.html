@@ -15,9 +15,9 @@
                 OFW Simulater
             </div>
             <div class="right">
-                <a href="index.html" class="a1" onclick="togglemove(this)"><p>Home</p></a>
-                <a href="simulation.html" class="a2" onclick="togglemove(this)"><p>Simulation</p></a>
-                <a href="about.html" class="a2" onclick="togglemove(this)"><p>About</p></a>
+                <a href="index.html" class="a1"><p>Home</p></a>
+                <a href="simulation.html" class="a2"><p>Simulation</p></a>
+                <a href="about.html" class="a2"><p>About</p></a>
                 <button onclick="togglelogin()">Login</button>
             </div>
         </div>
@@ -30,44 +30,21 @@
             <button onclick="togglelogin()">Enter</button>
         </div>
 
-
-
-
-
-
-        <div class="card" >
-            <div class="textbox">
-               <div class="phy">
-                <img src="WhatsApp Image 2026-02-20 at 1.23.15 PM.jpeg">
-                Physics Project.
-               </div>
-               <div class="title">
-                Optical Fibre Web<br>
-                Simulator.
-               </div>
-               <div class="button">
-                <button>START</button>
-               </div>
-            </div>
-            <div class="imgbox">
-                <img src="WhatsApp Image 2026-02-20 at 11.27.52 AM.jpeg">
-            </div>
-        </div>
-
         <script>
             function togglelogin()
             {
                 document.querySelector('.login').classList.toggle('active');
+                document.querySelector('.body').classList.toggle('active');
             }
             function togglemove()
             {
-                /*document.querySelector('a1').classList.toggle('active');
+                document.querySelector('a1').classList.toggle('active');
                 document.querySelector('a2').classList.toggle('active');
                 document.querySelector('a3').classList.toggle('active');
-                console.log(document.querySelector('a1').className);*/
-                style.color="red";
 
             }
         </script>
     </body>
 </html>
+
+
