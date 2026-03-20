@@ -1,0 +1,15 @@
+.user-input{
+    width: 350px;
+    height: 900px;
+    background-color: white;
+    position: fixed;
+    left:20px;
+    top: 100px;
+    bottom: 50px;
+}
+
+.base{
+    font-family: montserrat;
+    font-weight: 600;
+    margin-left: 10px;
+}
