@@ -39,14 +39,16 @@
             </div>
             <p class="base">Refractive Index (CLADDING)</p>
              <div>
-                <input type="range" class="slider" min="1" max="2" step="0.01">
-                <div class="output" style="display: inline-block; background-color:rgb(27, 25, 25); height: 22px; width: 32px;"></div>
+                <input type="range" class="slider2" min="1" max="2" step="0.01">
+                <div class="output2" style="display: inline-block; background-color:rgb(27, 25, 25); color: white; height: 22px; width: 32px;"></div>
             </div>
             <p class="base">Acceptance Angle (in degree)</p>
              <div>
-                <input type="range" min="0" max="90" step="1">
-                <div style="display: inline-block; background-color:rgb(27, 25, 25); height: 22px; width: 32px;"></div>
+                <input type="range" class="slider3" min="0" max="90" step="1">
+                <div class="output3" style="display: inline-block; background-color:rgb(27, 25, 25); color: white; height: 22px; width: 32px;"></div>
             </div>
+            <button onclick="tir()">APPLY</button>
+            <p class="result">none</p>
             
         </div>
 
@@ -57,7 +59,38 @@
             }
             const slider=document.querySelector('.slider');
             const output=document.querySelector('.output');
-            output.innerhtml=slider.value;
+            output.innerHTML=slider.value;
+            slider.oninput=function() {
+                output.innerHTML=slider.value;
+            }
+
+            const slider2=document.querySelector('.slider2');
+            const output2=document.querySelector('.output2');
+            output2.innerHTML=slider2.value;
+            slider2.oninput=function() {
+                output2.innerHTML=slider2.value;
+            }
+
+            const slider3=document.querySelector('.slider3');
+            const output3=document.querySelector('.output3');
+            output3.innerHTML=slider3.value;
+            slider3.oninput=function() {
+                output3.innerHTML=slider3.value;
+            }
+
+            function tir() {
+                const fibreinput={
+                    n1:parseFloat(slider.value),
+                    n2:parseFloat(slider2.value),
+                    theta:parseFloat(slider3.value)
+                };
+                const result=document.querySelector('.result');
+                if(fibreinput.n1>fibreinput.n2){
+                    result.innerHTML="Total-Inter-Reflection;"
+                }
+                else
+                    result.innerHTML="Refraction";
+            }
             
         </script>
     </body>
