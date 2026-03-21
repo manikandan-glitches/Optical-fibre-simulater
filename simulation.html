@@ -82,11 +82,20 @@
                 const fibreinput={
                     n1:parseFloat(slider.value),
                     n2:parseFloat(slider2.value),
-                    theta:parseFloat(slider3.value)
+                    thetaA:parseFloat(slider3.value)
                 };
                 const result=document.querySelector('.result');
                 if(fibreinput.n1>fibreinput.n2){
-                    result.innerHTML="Total-Inter-Reflection;"
+                    const thetaAC=Math.asin(fibreinput.n2/fibreinput.n1)*(180/Math.PI);
+                    console.log(thetaAC);
+                    const thetaA=fibreinput.thetaA*(Math.PI/180);
+                    const thetaIN=Math.asin(Math.sin(thetaA)/fibreinput.n1)*(180/Math.PI);
+                    console.log(thetaIN);
+                    if(thetaIN>thetaAC){
+                        result.innerHTML="Total-Inter-Reflection;"
+                    }
+                    else
+                        result.innerHTML="Refraction";
                 }
                 else
                     result.innerHTML="Refraction";

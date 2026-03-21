@@ -27,10 +27,12 @@ body{
 }
 .blockdiagram{
     background-color: #f5f5f5;
-    margin-top: 20px;
+    margin-top: 50px;
     height: 750px;
     margin-left: 300px;
     margin-right: 300px;
+    border-radius: 10px;
+     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 
 
 }
@@ -62,3 +64,68 @@ body{
   border: 2px solid #a855f7;
   margin-left: 70px;
   margin-right: 70px;}  
+  .wp{
+    background-color: #f5f5f5;
+    height: 450px;
+     margin-left: 30px;
+    margin-right: 30px;
+    border-radius: 10px;
+    margin-top: 50px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  }
+  .wpc{
+    font-size: 23px;
+  }
+  .formulas{
+    background-color: #f5f5f5;
+    height: 450px;
+     margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 50px;
+    width: 500px;
+    display: inline-block;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    
+  }
+  .objectives{
+    display: inline-block;
+    background-color: #f5f5f5;
+    height: 450px;
+    width: 900px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    
+  }
+  .parent {
+  display: flex;           /* Key: enables flexbox */
+  gap: 20px;              /* Space between panels, like in your image */
+  /* Optional: full width */
+  width: 100%;
+}
+
+.panel {
+  flex: 1;                /* Equal width for both panels */
+  border: 1px solid #ccc; /* Matches the light gray borders in image */
+  border-radius: 8px;     /* Rounded corners like image */
+  padding: 20px;          /* Inner spacing */
+  background: white;      /* White panels on any background */
+}
+
+.title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #333;            /* Dark text like image */
+}
+
+.content {
+  min-height: 200px;      /* Optional: minimum height to match empty state */
+}
+.parent{
+    margin-top: 50px;
+}
+.obj{
+    width: 70px;
+    height: 30px;
+}

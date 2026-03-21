@@ -42,7 +42,7 @@ It allows users to explore concepts like signal loss, fiber type, and wavelength
 
         <div class="blockdiagram">
             <center>
-            <h2>BLOCK DIAGRAM</h2><hr>
+            <h2 style="padding-top: 5px;">BLOCK DIAGRAM</h2><hr>
             <p class="pa">The  Flow  Of  Optical  Fibre  Simulator  is  shown  below.</p>
 
             </center>
@@ -83,11 +83,64 @@ It allows users to explore concepts like signal loss, fiber type, and wavelength
                 <p>Result Display</p>
                 </center>
             </div>
-            
-            <div class="arrow">
-               <center>↓</center>
+        </div>
+        <div class="wp">
+            <div>
+            <center>
+            <h2>WORKING PRINCIPLE</h2>
+            <hr>
+            </center>
+
+            </div>
+    <div >
+        <ul class="wpc">
+        <li>User provides inputs such as fiber type, length, wavelength, core refractive index (n₁), cladding refractive index (n₂), and incident angle (θ).</li>
+
+        <li>The simulator checks the basic condition n₁ > n₂ for light propagation.</li>
+
+        <li>If n₁ ≤ n₂, light cannot stay inside the fiber and escapes due to refraction.</li>
+
+        <li>If n₁ > n₂, the simulator proceeds to calculate the critical angle (θc).</li>
+
+        <li>The critical angle is calculated using the formula θc = sin⁻¹(n₂/n₁).</li>
+
+        <li>The incident angle (θ) is compared with the critical angle (θc).</li>
+
+        <li>If θ > θc, Total Internal Reflection (TIR) occurs.</li>
+
+       <li>If θ ≤ θc, refraction occurs and light escapes from the fiber.</li>
+
+       <li>When TIR occurs, light travels through the fiber by reflecting internally.</li>
+
+       <li>During transmission, signal loss (attenuation) is calculated based on fiber length.</li>
+
+      <li>The simulator determines the output signal strength after loss.</li>
+
+      <li>Finally, the result is displayed showing whether TIR or refraction occurs along with signal loss.</li>
+</ul>
             </div>
         </div>
+
+        <div class="parent">
+   <div class="panel">
+    <div class="title"><center>FORMULAS USED</center><hr></div>
+    <div class="content">
+      <!-- Your content here -->
+    </div>
+  </div>
+  <div class="panel">
+    <div class="title"><center>OBJECTIVES</center><hr></div>
+    <div class="content">
+      <p>1. To simulate the working principle of optical fibre communication in an interactive way.</p>
+<p>2. To understand how light is transmitted through an optical fibre using the concept of total internal reflection.</p>
+<p>3. To analyze how refractive indices (n₁ and n₂) affect signal propagation in the fibre.</p>
+<p>4. To calculate critical angle and observe conditions for signal transmission and loss.</p>
+<p>5. To demonstrate signal attenuation and data loss in optical communication systems.</p>
+<p>6. To provide a visual and educational tool for students to learn fibre optics easily.</p>
+<p>7. To enhance practical understanding of theoretical physics concepts through simulation.</p>
+    </div>
+  </div>
+</div>
 
 
         <div class="login">
