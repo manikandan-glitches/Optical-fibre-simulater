@@ -9,6 +9,20 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <style>
+
+        #fiberCanvas {
+            position: absolute;
+            top: 140px; /* Adjust based on your header height */
+            left: 450px; /* Adjust based on your user-input width */
+            background-color: rgba(214, 45, 45, 0.6); /* Dark background for the laser */
+            border-radius: 2px;
+            border-color: black;
+            border-width: 3px;
+            border-style: solid;
+        }
+        </style>
     </head>
     <body>
         <div class="header">
@@ -47,10 +61,24 @@
                 <input type="range" class="slider3" min="0" max="90" step="1">
                 <div class="output3" style="display: inline-block; background-color:rgb(27, 25, 25); color: white; height: 22px; width: 32px;"></div>
             </div>
+            <p class="base">Core Length (in Meter)</p>
+             <div>
+                <input type="range" class="slider4" min="100" max="900" step="10">
+                <div class="output4" style="display: inline-block; background-color:rgb(27, 25, 25); color: white; height: 22px; width: 32px;"></div>
+            </div>
+
+            <p class="base">Core Width (in Micrometer)</p>
+             <div>
+                <input type="range" class="slider5" min="50" max="300" step="1">
+                <div class="output5" style="display: inline-block; background-color:rgb(27, 25, 25); color: white; height: 22px; width: 32px;"></div>
+            </div>
+
             <button onclick="tir()">APPLY</button>
             <p class="result">none</p>
             
         </div>
+
+        <canvas id="fiberCanvas" width="900" height="450"></canvas>
 
         <script>
             function togglelogin()
@@ -78,28 +106,100 @@
                 output3.innerHTML=slider3.value;
             }
 
-            function tir() {
-                const fibreinput={
-                    n1:parseFloat(slider.value),
-                    n2:parseFloat(slider2.value),
-                    thetaA:parseFloat(slider3.value)
-                };
-                const result=document.querySelector('.result');
-                if(fibreinput.n1>fibreinput.n2){
-                    const thetaAC=Math.asin(fibreinput.n2/fibreinput.n1)*(180/Math.PI);
-                    console.log(thetaAC);
-                    const thetaA=fibreinput.thetaA*(Math.PI/180);
-                    const thetaIN=Math.asin(Math.sin(thetaA)/fibreinput.n1)*(180/Math.PI);
-                    console.log(thetaIN);
-                    if(thetaIN>thetaAC){
-                        result.innerHTML="Total-Inter-Reflection;"
-                    }
-                    else
-                        result.innerHTML="Refraction";
-                }
-                else
-                    result.innerHTML="Refraction";
+            const slider4=document.querySelector('.slider4');
+            const output4=document.querySelector('.output4');
+            output4.innerHTML=slider4.value;
+            slider4.oninput=function() {
+                output4.innerHTML=slider4.value;
             }
+
+            const slider5=document.querySelector('.slider5');
+            const output5=document.querySelector('.output5');
+            output5.innerHTML=slider5.value;
+            slider5.oninput=function() {
+                output5.innerHTML=slider5.value;
+            }
+
+
+
+            // ANIMATION LOGIC
+            let animationID;
+
+            function tir() {
+                // Cancel any old animation before starting a new one
+                cancelAnimationFrame(animationID);
+
+                const n1 = parseFloat(slider.value);
+                const n2 = parseFloat(slider2.value);
+                const thetaA_deg = parseFloat(slider3.value);
+                const result = document.querySelector('.result');
+                
+                const canvas = document.getElementById('fiberCanvas');
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Draw Fiber Boundaries
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 5;
+                ctx.strokeRect(0, 150, canvas.width, 100); // Core is between Y=150 and Y=250
+
+                if (n1 > n2) {
+                    // Critical Angle
+                const thetaC = Math.asin(n2 / n1) * (180 / Math.PI);
+                
+                // Snell's Law: 1 * sin(thetaA) = n1 * sin(theta_r)
+                const thetaA_rad = thetaA_deg * (Math.PI / 180);
+                const sin_theta_r = Math.sin(thetaA_rad) / n1;
+                const theta_r_rad = Math.asin(sin_theta_r);
+                
+                // Angle relative to the normal of the core/cladding interface
+                const theta_interface = 90 - (theta_r_rad * 180 / Math.PI);
+
+                let x = 0;
+                let y = 200; // Start in middle of core
+                let speedX = 3;
+                let speedY = Math.tan(theta_r_rad) * speedX;
+                
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.strokeStyle = "#00ffff"; // Neon Cyan laser
+                ctx.lineWidth = 2;
+                ctx.shadowBlur = 7;
+                ctx.shadowColor = "#00ffff";
+
+                if (theta_interface > thetaC) {
+                    result.innerHTML = "Total Internal Reflection!";
+                    result.style.color = "#00ff00";
+
+                    function animate() {
+                        if (x < canvas.width) {
+                            x += speedX;
+                            y += speedY;
+
+                            // Bounce at cladding boundaries (Y=150 and Y=250)
+                            if (y <= 150 || y >= 250) {
+                                speedY *= -1;
+                            }
+
+                            ctx.lineTo(x, y);
+                            ctx.stroke();
+                            animationID = requestAnimationFrame(animate);
+                        }
+                    }
+                    animate();
+                } else {
+                    result.innerHTML = "Refraction (Signal Loss)";
+                    result.style.color = "#ff4444";
+                    
+                    // Simple line showing light escaping
+                    ctx.lineTo(150, y - (150 * Math.tan(theta_r_rad)));
+                    ctx.lineTo(250, 0); // Escape
+                    ctx.stroke();
+                     }
+            } else {
+                result.innerHTML = "Error: n1 must be > n2";
+            }
+        }
             
         </script>
     </body>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .fibre {
+            width: 400px;
+            height: 150px;
+            border: 2px solid black;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ray {
+            width: 2px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            top: 50px;
+            left: 0;
+            transform-origin: top left;
+        }
+        </style>
+    </head>
+
+    <body>
+        <div class="fibre">
+            <div class="ray"></div>
+        </div>
+
+        <script>
+            function animateRefraction() {
+                const ray = document.querySelector('.ray');
+
+                ray.style.transform = "rotate(20deg)";
+                ray.style.left = "0px";
+
+                let pos = 0;
+
+                let move = setInterval(() => {
+                    pos += 5;
+                    ray.style.left = pos + "px";
+
+                    if (pos > 400) clearInterval(move);
+                }, 20);
+            }
+
+            function animateTIR() {
+                const ray = document.querySelector('.ray');
+
+                let x = 0;
+                let y = 50;
+                let direction = 1; // 1 = down, -1 = up
+
+                let move = setInterval(() => {
+                    x += 5;
+                    y += 5 * direction;
+
+                    // bounce
+                    if (y >= 130 || y <= 0) {
+                        direction *= -1;
+                    }
+
+                    ray.style.left = x + "px";
+                    ray.style.top = y + "px";
+
+                    if (x > 400) clearInterval(move);
+                }, 20);
+            }
+
+            if (result === "TIR") {
+                animateTIR();
+            } 
+            else {
+                animateRefraction();
+            }
+        </script>
+    </body>
+</html>
+
