@@ -11,16 +11,20 @@
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
         <style>
-
         #fiberCanvas {
             position: absolute;
-            top: 140px; /* Adjust based on your header height */
-            left: 450px; /* Adjust based on your user-input width */
+            top: 250px; /* Adjust based on your header height */
+            left: 400px; /* Adjust based on your user-input width */
             background-color: rgba(214, 45, 45, 0.6); /* Dark background for the laser */
             border-radius: 2px;
             border-color: black;
             border-width: 3px;
             border-style: solid;
+        }
+        .graph{
+            position: absolute;
+            top: 280px;
+            left: 1400px;
         }
         </style>
     </head>
@@ -80,37 +84,72 @@
 
         <canvas id="fiberCanvas" width="900" height="450"></canvas>
 
+        <div class="graph">
+            <canvas id="graphCanvas" width="400" height="400" style="border: 1px solid #444; background: #ffffff;"></canvas>
+            <p style="color: white; font-family: Arial; font-size: 14px; text-align: center;">Attenuation Graph: Power (%) vs Distance (m)</p>
+        </div>
+
         <script>
-            function togglelogin()
+             function togglelogin()
+
             {
+
                 document.querySelector('.login').classList.toggle('active');
+
             }
+
             const slider=document.querySelector('.slider');
+
             const output=document.querySelector('.output');
+
             output.innerHTML=slider.value;
+
             slider.oninput=function() {
+
                 output.innerHTML=slider.value;
+
             }
+
+
 
             const slider2=document.querySelector('.slider2');
+
             const output2=document.querySelector('.output2');
+
             output2.innerHTML=slider2.value;
+
             slider2.oninput=function() {
+
                 output2.innerHTML=slider2.value;
+
             }
+
+
 
             const slider3=document.querySelector('.slider3');
+
             const output3=document.querySelector('.output3');
+
             output3.innerHTML=slider3.value;
+
             slider3.oninput=function() {
+
                 output3.innerHTML=slider3.value;
+
             }
 
+
+
             const slider4=document.querySelector('.slider4');
+
             const output4=document.querySelector('.output4');
+
             output4.innerHTML=slider4.value;
+
             slider4.oninput=function() {
+
                 output4.innerHTML=slider4.value;
+
             }
 
             const slider5=document.querySelector('.slider5');
@@ -118,91 +157,156 @@
             output5.innerHTML=slider5.value;
             slider5.oninput=function() {
                 output5.innerHTML=slider5.value;
-            }
 
+            }
 
 
             // ANIMATION LOGIC
             let animationID;
 
             function tir() {
-                // Cancel any old animation before starting a new one
-                cancelAnimationFrame(animationID);
+            cancelAnimationFrame(animationID);
 
-                const n1 = parseFloat(slider.value);
-                const n2 = parseFloat(slider2.value);
-                const thetaA_deg = parseFloat(slider3.value);
-                const result = document.querySelector('.result');
-                
-                const canvas = document.getElementById('fiberCanvas');
-                const ctx = canvas.getContext('2d');
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Inputs
+            const n1 = parseFloat(slider.value);
+            const n2 = parseFloat(slider2.value);
+            const thetaA_deg = parseFloat(slider3.value);
+            const coreWidth = parseFloat(slider5.value); 
+            const actualLength = parseFloat(slider4.value); 
+            const result = document.querySelector('.result');
+            
+            const canvas = document.getElementById('fiberCanvas');
+            const ctx = canvas.getContext('2d');
+            const graphCanvas = document.getElementById('graphCanvas');
+            const gctx = graphCanvas.getContext('2d');
 
-                // Draw Fiber Boundaries
-                ctx.strokeStyle = '#333';
-                ctx.lineWidth = 5;
-                ctx.strokeRect(0, 150, canvas.width, 100); // Core is between Y=150 and Y=250
+            // Clear Both Canvases
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            gctx.clearRect(0, 0, graphCanvas.width, graphCanvas.height);
 
-                if (n1 > n2) {
-                    // Critical Angle
+            const centerY = canvas.height / 2;
+            const topWall = centerY - (coreWidth / 2);
+            const bottomWall = centerY + (coreWidth / 2);
+
+            // --- GRAPH AXES DRAWING ---
+            const padding = 40;
+            gctx.strokeStyle = "#888";
+            gctx.lineWidth = 2; // Axis line-ku 2 podhum, graph curve-ku thaan bold venum
+            gctx.beginPath();
+            gctx.moveTo(padding, padding); 
+            gctx.lineTo(padding, graphCanvas.height - padding); 
+            gctx.lineTo(graphCanvas.width - padding, graphCanvas.height - padding); 
+            gctx.stroke();
+
+            gctx.fillStyle = "black";
+            gctx.font = "Bold 15px Arial";
+            gctx.fillText("Power (%)", 5, 30);
+            gctx.fillText("Distance (m)", graphCanvas.width - 95, graphCanvas.height - 10);
+
+            // Core Boundary Drawing
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 10;
+            ctx.strokeRect(0, topWall, canvas.width, coreWidth);
+
+            // Scale Drawing
+            ctx.fillStyle = "white";
+            ctx.font = "12px Arial";
+            ctx.beginPath();
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 2;
+            ctx.moveTo(30, topWall); ctx.lineTo(30, bottomWall);
+            ctx.stroke();
+            ctx.fillText(coreWidth + " µm", 40, centerY + 5);
+
+            if (n1 > n2) {
                 const thetaC = Math.asin(n2 / n1) * (180 / Math.PI);
-                
-                // Snell's Law: 1 * sin(thetaA) = n1 * sin(theta_r)
                 const thetaA_rad = thetaA_deg * (Math.PI / 180);
                 const sin_theta_r = Math.sin(thetaA_rad) / n1;
                 const theta_r_rad = Math.asin(sin_theta_r);
-                
-                // Angle relative to the normal of the core/cladding interface
                 const theta_interface = 90 - (theta_r_rad * 180 / Math.PI);
 
                 let x = 0;
-                let y = 200; // Start in middle of core
+                let y = centerY; 
                 let speedX = 3;
-                let speedY = Math.tan(theta_r_rad) * speedX;
-                
-                ctx.beginPath();
-                ctx.moveTo(x, y);
-                ctx.strokeStyle = "#00ffff"; // Neon Cyan laser
-                ctx.lineWidth = 2;
-                ctx.shadowBlur = 7;
-                ctx.shadowColor = "#00ffff";
+                let speedY = Math.tan(theta_r_rad) * speedX; 
+                let totalBounces = 0; 
+                const lengthScaleFactor = actualLength / 900;
 
                 if (theta_interface > thetaC) {
                     result.innerHTML = "Total Internal Reflection!";
                     result.style.color = "#00ff00";
 
+                    // --- GRAPH PATH SETUP ---
+                    gctx.beginPath(); 
+                    gctx.strokeStyle = "#00ffff";
+                    gctx.lineWidth = 3; // Graph curve nalla bold-ah theriya
+                    let isFirstPoint = true;
+
                     function animate() {
                         if (x < canvas.width) {
+                            let oldX = x;
+                            let oldY = y;
+
                             x += speedX;
                             y += speedY;
 
-                            // Bounce at cladding boundaries (Y=150 and Y=250)
-                            if (y <= 150 || y >= 250) {
+                            if (y <= topWall || y >= bottomWall) { 
+                                y = (y <= topWall) ? topWall : bottomWall;
                                 speedY *= -1;
+                                totalBounces += (1 * lengthScaleFactor); 
                             }
 
+                            // Attenuation Calculation
+                            let reflectionPower = Math.pow(0.85, totalBounces); 
+                            let currentDistanceInMeters = (x / canvas.width) * actualLength;
+                            let distancePower = Math.pow(0.998, currentDistanceInMeters);
+                            let totalPower = reflectionPower * distancePower;
+                            let brightness = Math.max(0, 255 * totalPower);
+
+                            result.innerHTML = `Total Reflections: ${Math.floor(totalBounces)}`;
+
+                            // --- GRAPH DRAWING ---
+                            let graphX = padding + (x / canvas.width) * (graphCanvas.width - padding * 2);
+                            let graphY = (graphCanvas.height - padding) - (totalPower * (graphCanvas.height - padding * 2)); 
+
+                            if (isFirstPoint) {
+                                gctx.moveTo(graphX, graphY);
+                                isFirstPoint = false;
+                            } else {
+                                gctx.lineTo(graphX, graphY);
+                                gctx.stroke();
+                            }
+
+                            // --- RAY DRAWING ---
+                            ctx.beginPath();
+                            ctx.moveTo(oldX, oldY);
                             ctx.lineTo(x, y);
+                            ctx.strokeStyle = `rgb(0, ${brightness}, ${brightness})`;
+                            ctx.lineWidth = 6;
+                            ctx.lineCap = 'round';
                             ctx.stroke();
+
                             animationID = requestAnimationFrame(animate);
+                        } else {
+                            let finalPower = Math.floor((Math.pow(0.85, totalBounces) * Math.pow(0.998, actualLength)) * 100);
+                            result.innerHTML += ` | Final Signal Power: ${finalPower}%`;
                         }
                     }
                     animate();
                 } else {
                     result.innerHTML = "Refraction (Signal Loss)";
                     result.style.color = "#ff4444";
-                    
-                    // Simple line showing light escaping
-                    ctx.lineTo(150, y - (150 * Math.tan(theta_r_rad)));
-                    ctx.lineTo(250, 0); // Escape
+                    ctx.strokeStyle = "#ff4444";
+                    ctx.beginPath();
+                    ctx.moveTo(0, centerY);
+                    ctx.lineTo(150, centerY + (150 * Math.tan(theta_r_rad)));
                     ctx.stroke();
-                     }
+                }
             } else {
                 result.innerHTML = "Error: n1 must be > n2";
+                result.style.color = "orange";
             }
         }
-            
         </script>
     </body>
 </html>
-
-
